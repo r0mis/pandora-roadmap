@@ -98,3 +98,13 @@ API: GOOGLE_API_KEY вже є. Потрібен ANTHROPIC_API_KEY.
 - venv: /mnt/pandora_db/bot/venv
 - Python файли через: sudo python3 << 'EOF'
 - Логи: /mnt/pandora_db/logs/
+
+## Синхронізація моделей
+- Claude читає ROADMAP + SESSIONS_LOG самостійно через web_fetch (raw GitHub URL)
+- Gemini отримує вміст через copy-paste від Романа на початку сесії
+- Наприкінці кожної сесії: Claude генерує апдейт обох файлів → git commit → push
+- Команда для commit:
+  cd /mnt/pandora_db/bot
+  git add ROADMAP_v2.md SESSIONS_LOG.md
+  git commit -m "Session YYYY-MM-DD update"
+  git push
