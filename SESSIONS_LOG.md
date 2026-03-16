@@ -105,3 +105,27 @@
 2. daily_ingest.py
 3. Langfuse
 4. Triple Brain Оркестратор
+
+---
+## Сесія 16.03.2026
+
+### Апдейти архітектури:
+1. Kitchen SaaS — NBC + ABC в ChromaDB, перевірка DXF на відповідність нормам
+2. Бізнес-розвідка — Tavily/Serper + Web Scraper для Reddit/конкурентів
+3. Agentic Swarm — Пандора як оркестратор у Flowise
+4. Core Identity — системний промпт з бекграундом Романа
+
+### Інцидент та фікс:
+- Бот не надіслав стартове повідомлення — два екземпляри конфліктували
+- Фікс: захист від дублів додано в start_pandora.sh
+
+### Постійний фікс /tmp:
+- pandora-roadmap перенесено з /tmp до /mnt/pandora_db/pandora-roadmap
+- /tmp очищається при перезавантаженні — більше не використовуємо
+
+### Наступні задачі:
+1. Flowise → ChromaDB (tennis_atp)
+2. daily_ingest.py
+3. Tavily/Serper агенти
+4. Core Identity промпт
+5. night_training.sh
