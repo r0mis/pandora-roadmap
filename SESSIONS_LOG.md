@@ -65,3 +65,14 @@
 2. Написати daily_ingest.py
 3. Інтегрувати Langfuse
 4. Проектування Triple Brain Оркестратора
+
+## Сесія 15.03.2026 — Частина 2 (Claude + Gemini + Роман)
+- Claude читає raw GitHub через web_fetch (прямий HTTP GET)
+- Gemini browsing спирається на Google індекс → raw файли не читає
+- Прийнята схема синхронізації: Claude сам читає URL, Gemini отримує copy-paste
+- Flowise → ChromaDB: ще не підключено ⏳
+### Наступна сесія:
+1. Flowise → ChromaDB (tennis_atp)
+2. daily_ingest.py
+3. Langfuse
+4. Triple Brain Оркестратор
