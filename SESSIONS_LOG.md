@@ -158,3 +158,26 @@ bash /mnt/pandora_db/bot/session_start.sh — ПЕРША команда кожн
 3. Парсер ATP 2025 (RapidAPI)
 4. Cron для daily_ingest.py
 5. Langfuse трасування
+
+## Сесія 17.03.2026 ранок (Claude + Роман)
+
+### Що зробили:
+1. Після ребуту — start_pandora.sh запускав venv chroma замість Docker (конфлікт портів)
+2. Видалили "chroma" з kill loop в start_pandora.sh
+3. Додали pkill venv chroma перед docker start
+4. IPv4 фікс для aiogram — bot.py головна функція
+5. session_start.sh — всі сервіси зелені
+
+### Статус після ребуту:
+- ChromaDB Docker: ✅ pandora_chroma Up
+- Flowise: ✅ Up
+- Ollama: ✅ 11434
+- tennis_atp: ✅ 768dim
+- Bot: ✅ Running
+
+### Наступна сесія:
+1. Фікс OllamaEmbeddings в Flowise (Invalid URL → 172.17.0.1)
+2. Тест RAG tennis_atp через chatflow
+3. Парсер ATP 2025
+4. Cron для daily_ingest.py
+5. Langfuse трасування
