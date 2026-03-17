@@ -137,3 +137,24 @@
 - Захист voice handler від null whisper_model
 - amdgpu додано в /etc/modules-load.d/amdgpu.conf
 - pandora-roadmap перенесено з /tmp до /mnt/pandora_db/pandora-roadmap
+
+## Сесія 16.03.2026 (Claude + Gemini + Роман)
+
+### Що зробили:
+1. ChromaDB Docker — фікс persist_path /data, tennis_atp 67,336 матчів ✅
+2. Flowise API key — створено через SQLite (pandora-bot) ✅
+3. Chatflow тест — відповідає українською через API ✅
+4. daily_ingest.py — каркас з upsert батчами ✅
+5. session_start.sh — чек системи перед кожною сесією ✅
+6. .env — додано FLOWISE_API_KEY, CHROMA_URL, DOCKER_BRIDGE_IP ✅
+
+### Нове правило сесій:
+bash /mnt/pandora_db/bot/session_start.sh — ПЕРША команда кожної сесії
+Не запускати вручну те що вже ✅
+
+### Наступна сесія:
+1. Фікс OllamaEmbeddings в Flowise (Invalid URL)
+2. Тест RAG tennis_atp через chatflow
+3. Парсер ATP 2025 (RapidAPI)
+4. Cron для daily_ingest.py
+5. Langfuse трасування
