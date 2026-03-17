@@ -129,3 +129,11 @@
 3. Tavily/Serper агенти
 4. Core Identity промпт
 5. night_training.sh
+
+### Фікси 16.03.2026 вечір:
+- aiogram оновлено до 3.7.0
+- Whisper переведено на Background Threading (ідея Gemini)
+- Бот стартує миттєво, Whisper вантажиться у фоні
+- Захист voice handler від null whisper_model
+- amdgpu додано в /etc/modules-load.d/amdgpu.conf
+- pandora-roadmap перенесено з /tmp до /mnt/pandora_db/pandora-roadmap
