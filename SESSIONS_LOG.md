@@ -181,3 +181,24 @@ bash /mnt/pandora_db/bot/session_start.sh — ПЕРША команда кожн
 3. Парсер ATP 2025
 4. Cron для daily_ingest.py
 5. Langfuse трасування
+
+## Сесія 17.03.2026 — Вечірня (Claude + Gemini + Роман)
+### Що зроблено:
+1. docker-compose.yml — pandora_net 172.20.0.0/16 + host.docker.internal ✅
+2. ChromaDB перенесена на Docker (pandora_chroma) ✅
+3. Знайдено де живуть 67k матчів: /mnt/pandora_db/memory ✅
+4. Виявлено: ChromaDB запускалась з /vector_db замість /memory ✅
+5. start_pandora.sh виправлено — правильний --path ✅
+6. OLLAMA_HOST=0.0.0.0 ✅
+7. update_ips.py замінив localhost на Tailscale IP — ТРЕБА ВІДКОТИТИ ⚠️
+### Поточний стан:
+- ChromaDB: ✅ Docker pandora_chroma, 67336 матчів
+- Flowise: ✅ порт 3001, бачить ChromaDB
+- RAG: ⚠️ KeyError('_type') — несумісність Flowise JS chromadb 3.1.6 vs сервер
+- Telegram Bot: ❌ не запущений
+- Bot/.env: ⚠️ localhost замінено на 100.127.189.25 — треба виправити
+### Наступна сесія:
+1. Відкотити update_ips.py damage: localhost у bot/.env та bot.py
+2. Запустити Telegram бота
+3. Вирішити RAG несумісність (Flowise chromadb JS клієнт)
+4. Переіндексувати якщо потрібно
