@@ -1,235 +1,30 @@
-# Pandora — Sessions Log
+# Pandora — Sessions Log (Reverse Chronological)
 
-## Сесія 15.03.2026 (Claude + Gemini + Роман)
+## Сесія 22.03.2026 — Велике Очищення та 300% Синхронізація\n* Ліквідовано дублікати файлів, встановлено єдине джерело правди (MASTER_ROADMAP.md).\n* Створено динамічний генератор промптів з меню (One-Click Sync).\n* Затверджено Zero Trust архітектуру: повна ізоляція Claude, управління стратегією через Gemini.\n* Написано новий чистий pandora_snapshot.sh для зрізу метрик без сміття з домашньої папки.\n
 
-### Проблеми з якими прийшли:
-- Пандора видавала помилку API 500 (predictionsServices.buildChatflow - fetch failed)
-- ChromaDB і Tennis API не запускались після перезавантаження
-- Ollama працював в CPU режимі (15-30 сек на відповідь)
-- Не було автозапуску сервісів
+## Сесія 22.03.2026 — Велике Очищення та 300% Синхронізація\n* Ліквідовано дублікати файлів, встановлено єдине джерело правди (MASTER_ROADMAP.md).\n* Створено динамічний генератор промптів з меню (One-Click Sync).\n* Затверджено Zero Trust архітектуру: повна ізоляція Claude, управління стратегією через Gemini.\n* Написано новий чистий pandora_snapshot.sh для зрізу метрик без сміття з домашньої папки.\n
 
-### Що зробили:
-1. Діагностика — знайшли що ChromaDB (порт 8000) і Tennis API (порт 5001) не запущені
-2. Виявили ChromaDB v1→v2 міграцію (endpoint змінився)
-3. Виправили конфлікт порту 5001 (дублюючий процес)
-4. Виправили OLLAMA_URL з 172.17.0.1 на localhost
-5. Переключили монітор на iGPU (Radeon 780M) — RX 9070 XT повністю вільна для AI
-6. Налаштували Ollama GPU режим через systemd (ROCR_VISIBLE_DEVICES=0)
-7. Знайшли CHAT_ID=7243726821 в users.json
-8. Написали start_pandora.sh з Telegram повідомленням (статус GPU, сервіси, моделі)
-9. Додали автозапуск через crontab @reboot
-10. Додали WiFi watchdog (cron кожні 3 хвилини)
-11. Виявили що Tailscale вже працює (100.127.189.25) — WireGuard скасований
-12. Написали ingest_tennis_csv.py — RAG pipeline для ATP матчів
-13. Проіндексували 67336 матчів (2019-2024) через nomic-embed-text
-14. Зробили backup на GitHub (r0mis/pandora-bot)
-15. Виправили .gitignore (venv, logs, sqlite3 більше не в репо)
+## Сесія 19.03.2026 — Синхронізація Історії та System Prompt Injection
+* Завантажено та проаналізовано архів розмов. Сформовано дві півкулі взаємодії: [Tech Core] та [Mind].
+* Прийнято рішення про System Prompt Injection: вшити профілі в ROADMAP_v2.md.
+* Наступний крок: Написання tennis_rag.py на чистому асинхронному Python. Відмова від візуального RAG у Flowise.
 
-### Архітектурні рішення:
-- Фаза 2 (купівля другої відеокарти) — скасована через iGPU рішення
-- WireGuard VPN — скасований, Tailscale вже є
-- Flashscore парсер — залишаємо як запасний, шукаємо легальну альтернативу
+## Сесія 18.03.2026 — Альфа Пандора v3.0 та Епізодична пам'ять
+* Затверджено концепт v3.0: "Когнітивне рукостискання" (динамічна безпека) та "Morning Briefing".
+* Жорстка ізоляція середовищ на DEV та PROD.
+* Розпочато роботу над модулем епізодичної пам'яті (reflection_memory.py) для ChromaDB.
 
-### Брейншторм (нові ідеї):
-- Triple Brain Оркестратор: Пандора → Claude + Gemini паралельно → Consensus Aggregator
-- Confidence scoring для кожної відповіді
-- Smart routing за типом задачі (код→Claude, аналіз→Gemini, теніс→qwen)
-- Fallback ланцюжок якщо API недоступне
-- Cost tracker (Redis: токени і USD)
-- Session memory між сесіями
-- Audit log всіх рішень оркестратора
-- Self-learning loop (прийнятий/відхилений → покращення ваг)
-- Langfuse для трасування (критично для Betting Brain)
-- daily_ingest.py для щоденного оновлення ATP бази
-- Semantic Router через власні ChromaDB вектори
-- User memory окрема колекція ChromaDB
-- A/B тестування моделей
+## Сесія 17.03.2026 — Мережа та Docker
+* ChromaDB перенесена на Docker (pandora_chroma). База 67,336 матчів знайдена у /mnt/pandora_db/memory.
+* Виправлено start_pandora.sh (правильний --path).
+* OLLAMA_HOST=0.0.0.0. Flowise бачить ChromaDB.
 
-### Gemini інсайти цієї сесії:
-- Observability (Langfuse/LangSmith) — критично для фінансової аналітики
-- Continuous Ingestion Pipeline — база без оновлення деградує
-- Semantic Router бібліотека (ми вирішили робити власний через ChromaDB)
-- Епізодична пам'ять користувача (Zep/Mem0 або своя колекція)
+## Сесія 16.03.2026 — Графічний інтерфейс та Tailscale Fix
+* Успішно виправлено критичну помилку 500 Internal Server Error. Вся архітектура переведена на Tailscale IP (100.127.189.25).
+* Створено "Пульт Пандори v2.0" (Python/Tkinter) для керування сервісами з робочого столу.
+* Написано першу версію pandora_snapshot.sh для автоматичного зрізу системи.
 
-### Статус на кінець сесії:
-- ChromaDB: OK (v2, порт 8000)
-- Tennis API: OK (порт 5001)
-- Telegram Bot: OK
-- GPU: RX 9070 XT вільна, iGPU тримає монітор
-- ATP база: 67336 матчів (100%)
-- Flowise: запущено але ChromaDB ще не підключена до chatflow
-- GitHub: r0mis/pandora-bot + r0mis/pandora-roadmap
-
-### Наступна сесія починати з:
-1. Підключити ChromaDB до Flowise (колекція tennis_atp)
-2. Написати daily_ingest.py
-3. Інтегрувати Langfuse
-4. Проектування Triple Brain Оркестратора
-
-    ## Сесія 15.03.2026 — Частина 2 (Claude + Gemini + Роман)
-
-### Що зробили:
-1. Діагностика: Claude зміг прочитати raw.githubusercontent.com через web_fetch (прямий HTTP GET)
-2. Gemini підтвердив: його інструмент `browsing` спирається на пошуковий індекс Google,
-   тому raw файли без індексу повертають URL_FETCH_STATUS_NOT_IN_SEARCH_INDEX
-3. Підтверджена архітектура Triple Brain — різні інструменти моделей компенсують слабкі місця одна одної
-4. Прийнята схема синхронізації між моделями через GitHub (ROADMAP + SESSIONS_LOG)
-
-### Схема синхронізації Claude ↔ Gemini:
-- Claude читає файли сам через web_fetch (raw GitHub URL)
-- Gemini отримує вміст від Романа (copy-paste тексту або скріншот)
-- Наприкінці кожної сесії: Claude генерує апдейт → Роман робить git commit → обидві моделі синхронізовані
-
-### Розподіл сильних сторін (підтверджено):
-- Claude → прямі HTTP запити, читання raw файлів, логів, API endpoints
-- Gemini → глибокий веб-пошук, складний рефакторинг, аналітика
-- Qwen → швидкий локальний агент для рутинних задач
-
-### Статус на кінець сесії:
-- Схема синхронізації: прийнята ✅
-- Flowise → ChromaDB: ще не підключено (чекаємо деталей від Романа) ⏳
-
-### Наступна сесія починати з:
-1. Підключити ChromaDB до Flowise (колекція tennis_atp) — Роман надасть деталі конфігурації
-2. daily_ingest.py
-3. Langfuse
-4. Triple Brain Оркестратор
-
-## Сесія 15.03.2026 — Частина 2 (Claude + Gemini + Роман)
-- Claude читає raw GitHub через web_fetch (прямий HTTP GET)
-- Gemini browsing спирається на Google індекс → raw файли не читає
-- Прийнята схема синхронізації: Claude сам читає URL, Gemini отримує copy-paste
-- Flowise → ChromaDB: ще не підключено ⏳
-### Наступна сесія:
-1. Flowise → ChromaDB (tennis_atp)
-2. daily_ingest.py
-3. Langfuse
-4. Triple Brain Оркестратор
-
----
-## Сесія 16.03.2026
-
-### Апдейти архітектури:
-1. Kitchen SaaS — NBC + ABC в ChromaDB, перевірка DXF на відповідність нормам
-2. Бізнес-розвідка — Tavily/Serper + Web Scraper для Reddit/конкурентів
-3. Agentic Swarm — Пандора як оркестратор у Flowise
-4. Core Identity — системний промпт з бекграундом Романа
-
-### Інцидент та фікс:
-- Бот не надіслав стартове повідомлення — два екземпляри конфліктували
-- Фікс: захист від дублів додано в start_pandora.sh
-
-### Постійний фікс /tmp:
-- pandora-roadmap перенесено з /tmp до /mnt/pandora_db/pandora-roadmap
-- /tmp очищається при перезавантаженні — більше не використовуємо
-
-### Наступні задачі:
-1. Flowise → ChromaDB (tennis_atp)
-2. daily_ingest.py
-3. Tavily/Serper агенти
-4. Core Identity промпт
-5. night_training.sh
-
-### Фікси 16.03.2026 вечір:
-- aiogram оновлено до 3.7.0
-- Whisper переведено на Background Threading (ідея Gemini)
-- Бот стартує миттєво, Whisper вантажиться у фоні
-- Захист voice handler від null whisper_model
-- amdgpu додано в /etc/modules-load.d/amdgpu.conf
-- pandora-roadmap перенесено з /tmp до /mnt/pandora_db/pandora-roadmap
-
-## Сесія 16.03.2026 (Claude + Gemini + Роман)
-
-### Що зробили:
-1. ChromaDB Docker — фікс persist_path /data, tennis_atp 67,336 матчів ✅
-2. Flowise API key — створено через SQLite (pandora-bot) ✅
-3. Chatflow тест — відповідає українською через API ✅
-4. daily_ingest.py — каркас з upsert батчами ✅
-5. session_start.sh — чек системи перед кожною сесією ✅
-6. .env — додано FLOWISE_API_KEY, CHROMA_URL, DOCKER_BRIDGE_IP ✅
-
-### Нове правило сесій:
-bash /mnt/pandora_db/bot/session_start.sh — ПЕРША команда кожної сесії
-Не запускати вручну те що вже ✅
-
-### Наступна сесія:
-1. Фікс OllamaEmbeddings в Flowise (Invalid URL)
-2. Тест RAG tennis_atp через chatflow
-3. Парсер ATP 2025 (RapidAPI)
-4. Cron для daily_ingest.py
-5. Langfuse трасування
-
-## Сесія 17.03.2026 ранок (Claude + Роман)
-
-### Що зробили:
-1. Після ребуту — start_pandora.sh запускав venv chroma замість Docker (конфлікт портів)
-2. Видалили "chroma" з kill loop в start_pandora.sh
-3. Додали pkill venv chroma перед docker start
-4. IPv4 фікс для aiogram — bot.py головна функція
-5. session_start.sh — всі сервіси зелені
-
-### Статус після ребуту:
-- ChromaDB Docker: ✅ pandora_chroma Up
-- Flowise: ✅ Up
-- Ollama: ✅ 11434
-- tennis_atp: ✅ 768dim
-- Bot: ✅ Running
-
-### Наступна сесія:
-1. Фікс OllamaEmbeddings в Flowise (Invalid URL → 172.17.0.1)
-2. Тест RAG tennis_atp через chatflow
-3. Парсер ATP 2025
-4. Cron для daily_ingest.py
-5. Langfuse трасування
-
-## Сесія 17.03.2026 — Вечірня (Claude + Gemini + Роман)
-### Що зроблено:
-1. docker-compose.yml — pandora_net 172.20.0.0/16 + host.docker.internal ✅
-2. ChromaDB перенесена на Docker (pandora_chroma) ✅
-3. Знайдено де живуть 67k матчів: /mnt/pandora_db/memory ✅
-4. Виявлено: ChromaDB запускалась з /vector_db замість /memory ✅
-5. start_pandora.sh виправлено — правильний --path ✅
-6. OLLAMA_HOST=0.0.0.0 ✅
-7. update_ips.py замінив localhost на Tailscale IP — ТРЕБА ВІДКОТИТИ ⚠️
-### Поточний стан:
-- ChromaDB: ✅ Docker pandora_chroma, 67336 матчів
-- Flowise: ✅ порт 3001, бачить ChromaDB
-- RAG: ⚠️ KeyError('_type') — несумісність Flowise JS chromadb 3.1.6 vs сервер
-- Telegram Bot: ❌ не запущений
-- Bot/.env: ⚠️ localhost замінено на 100.127.189.25 — треба виправити
-### Наступна сесія:
-1. Відкотити update_ips.py damage: localhost у bot/.env та bot.py
-2. Запустити Telegram бота
-3. Вирішити RAG несумісність (Flowise chromadb JS клієнт)
-4. Переіндексувати якщо потрібно
-
-## Сесія 17.03.2026 — Вечірня (Claude + Gemini + Роман)
-### Що зроблено:
-1. docker-compose.yml — pandora_net 172.20.0.0/16 + host.docker.internal ✅
-2. ChromaDB перенесена на Docker (pandora_chroma) ✅
-3. Знайдено де живуть 67k матчів: /mnt/pandora_db/memory ✅
-4. Виявлено: ChromaDB запускалась з /vector_db замість /memory ✅
-5. start_pandora.sh виправлено — правильний --path ✅
-6. OLLAMA_HOST=0.0.0.0 ✅
-7. update_ips.py замінив localhost на Tailscale IP — ТРЕБА ВІДКОТИТИ ⚠️
-### Поточний стан:
-- ChromaDB: ✅ Docker pandora_chroma, 67336 матчів
-- Flowise: ✅ порт 3001, бачить ChromaDB
-- RAG: ⚠️ KeyError('_type') — несумісність Flowise JS chromadb 3.1.6 vs сервер
-- Telegram Bot: ❌ не запущений
-- Bot/.env: ⚠️ localhost замінено на 100.127.189.25 — треба виправити
-### Наступна сесія:
-1. Відкотити update_ips.py damage: localhost у bot/.env та bot.py
-2. Запустити Telegram бота
-3. Вирішити RAG несумісність (Flowise chromadb JS клієнт)
-4. Переіндексувати якщо потрібно
-
----
-## Сесія 19.03.2026 (13:30) — Синхронізація Історії та System Prompt Injection
-### Що зробили:
-1. Завантажено та проаналізовано гігантський архів попередніх розмов (DeepSeek, Gemini, Claude).
-2. Сформовано дві півкулі взаємодії: **[Tech Core]** (чистий код, термінал) та **[Mind]** (стратегія, монетизація, філософія).
-3. Прийнято рішення про **System Prompt Injection**: вшити профілі та налаштування сервера прямо в ROADMAP_v2.md для автоматичної ініціалізації ШІ у нових чатах.
-4. Затверджено 4-денний марафон розробки (Pandora Sprint) на вихідні.
-### Наступний крок (19.03 14:00):
-- Написання `tennis_rag.py` на чистому асинхронному Python та відмова від візуального RAG у Flowise.
+## Сесія 15.03.2026 — Triple Brainstorm (Claude + Gemini + Роман)
+* Переключили монітор на iGPU (Radeon 780M). RX 9070 XT повністю вільна для AI.
+* Налаштували Ollama GPU режим через systemd.
+* Проіндексували 67336 матчів ATP через nomic-embed-text.
